@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartVision | Bird Deterrence Dashboard</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- UI Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="glow-orb" id="orb-1"></div>
+    <div class="glow-orb" id="orb-2"></div>
+
+    <div class="dashboard-wrapper">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </span>
+                <div class="logo-text">
+                    <h1>SMART<span>VISION</span></h1>
+                    <p>AI Bird Detection & Deterrence System</p>
+                </div>
+            </div>
+            <div class="system-status-indicator">
+                <div class="status-pulse active" id="system-pulse"></div>
+                <span id="system-status text">SYSTEM ONLINE</span>
+            </div>
+        </header>
+
+        <!-- MAIN LAYOUT -->
+        <main class="dashboard-grid">
+            
+            <!-- LEFT PANEL: VIDEO STREAM -->
+            <section class="grid-card video-card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <span class="pulse-red" id="recording-indicator"></span>
+                        <h2>LIVE MONITORING FEED</h2>
+                    </div>
+                    <div class="badge" id="video-source-badge">DETECTING SOURCE...</div>
+                </div>
+                <div class="video-container">
+                    <div class="crosshair-overlay">
+                        <div class="ch-tl"></div><div class="ch-tr"></div>
+                        <div class="ch-bl"></div><div class="ch-br"></div>
+                        <div class="ch-center"></div>
+                    </div>
+                    <img id="video-stream" src="{{ url_for('video_feed') }}" alt="Live YOLOv8 Feed Check">
+                    
+                    <div class="alarm-banner" id="alarm-banner">
+                        <span class="alert-icon">⚡</span>
+                        <span class="alert-text">BIRD DETECTED - DETERRENT ACTIVE</span>
+                    </div>
+                </div>
+                <div class="stream-controls">
+                    <span id="fps-counter">Frame Rate: -- FPS</span>
+                    <span id="stream-resolution">Res: 640x480</span>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL: CONTROLS & TELEMETRY -->
+            <section class="right-column">
+                
+                <!-- TELEMETRY STATS GRID -->
+                <div class="stats-row">
+                    <div class="grid-card stat-card">
+                        <p class="stat-label">Active Sightings</p>
+                        <h3 class="stat-value" id="sighting-stat">0</h3>
+                        <span class="stat-sub">Target Match</span>
+                    </div>
+                    <div class="grid-card stat-card">
+                        <p class="stat-label">Deterrence Cycles</p>
+                        <h3 class="stat-value" id="trigger-stat">0</h3>
+                        <span class="stat-sub">Total Actions</span>
+                    </div>
+                    <div class="grid-card stat-card">
+                        <p class="stat-label">Uptime</p>
+                        <h3 class="stat-value" id="uptime-stat">00:00:00</h3>
+                        <span class="stat-sub">Since Boot</span>
+                    </div>
+                </div>
+
+                <!-- CONTROLLER SYSTEM CARD -->
+                <div class="grid-card control-card">
+                    <div class="card-header">
+                        <h2>HARDWARE INTERFACE</h2>
+                        <div class="badge connection-badge" id="hw-status-badge">RECONNECTING...</div>
+                    </div>
+                    <div class="control-panel-grid">
+                        <div class="info-row">
+                            <span class="info-label">Active Port</span>
+                            <span class="info-value" id="hardware-port">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Deterrence Laser</span>
+                            <span class="info-value text-red" id="laser-status">DEACTIVATED</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Servo Pan/Tilt Mode</span>
+                            <span class="info-value" id="scanning-mode">DYNAMIC SCAN</span>
+                        </div>
+                    </div>
+                    
+                    <div class="actions-row">
+                        <button class="btn btn-danger" id="btn-manual-trigger">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+                            TRIGGER ALARM
+                        </button>
+                        <button class="btn btn-secondary" id="btn-manual-clear">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18.3 5.7 5.7 18.3"></path><path d="m5.7 5.7 12.6 12.6"></path></svg>
+                            RESET SYSTEM
+                        </button>
+                    </div>
+                </div>
+
+                <!-- LIVE CONSOLE LOGS -->
+                <div class="grid-card console-card">
+                    <div class="card-header">
+                        <h2>EVENT TELEMETRY LOGS</h2>
+                        <span class="terminal-dot"></span>
+                    </div>
+                    <div class="console-output" id="console-output">
+                        <div class="log-line">[SYSTEM] UI Dashboard loaded successfully. Ready for stream.</div>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+        
+        <footer class="app-footer">
+            <p>SmartVision Deterrence Node &copy; 2026. Made with Precision.</p>
+        </footer>
+    </div>
+
+    <!-- UI Interaction Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
