@@ -17,19 +17,19 @@ Featuring a high-performance **YOLOv8 object detector**, modular **multithreaded
 
 ```mermaid
 graph TD
-    subgraph Edge Device (Raspberry Pi / PC)
+    subgraph edge ["Edge Device (Raspberry Pi / PC)"]
         A[Camera Stream Engine] -->|Raw BGR Frame| B[YOLOv8 Detector Module]
         B -->|Bounding Box & Class ID 14| C[Central Control Orchestrator]
         C -->|Frame Cache| D[MJPEG Feed Generator]
         C -->|REST Telemetry & Status logs| E[Flask web server]
     end
 
-    subgraph Hardware Deterrent (Microcontroller)
+    subgraph hardware ["Hardware Deterrent (Microcontroller)"]
         F[Arduino Controller] -->|PAN/TILT Adjustments| G[2-Axis Servo Joint]
         F -->|GPIO Out Close| H[Targeting Laser Guard]
     end
 
-    subgraph Client Browser
+    subgraph client ["Client Browser"]
         I[Frontend Dashboard Webpage]
     end
 
