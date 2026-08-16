@@ -13,7 +13,7 @@ Featuring a high-performance **YOLOv8 object detector**, modular **multithreaded
 
 ---
 
-## 🛰️ Architecture & Dataflow
+## Architecture & Dataflow
 
 ```mermaid
 graph TD
@@ -40,7 +40,7 @@ graph TD
 
 ---
 
-## 🛠️ Technology Stack & Core Modules
+## Technology Stack & Core Modules
 
 ### Backend Stack
 *   **Python 3.8+**: Application logical runtime.
@@ -59,7 +59,7 @@ graph TD
 
 ---
 
-## 🔌 Hardware Wiring Specification
+## Hardware Wiring Specification
 
 The physical system uses a Pan/Tilt bracket driven by two standard RC servos, holding a low-power focus laser or sound emitter.
 
@@ -73,7 +73,7 @@ The physical system uses a Pan/Tilt bracket driven by two standard RC servos, ho
 
 ---
 
-## 🚀 Installation & Deployment
+## Installation & Deployment
 
 ### 1. Arduino Sketch Setup
 1. Launch Arduino IDE.
